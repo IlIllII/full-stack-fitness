@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 
 /**
- * User schema containing username, email, and password properties.
+ * User schema containing username and password properties.
  * 
  * @arg {string} username
  * @arg {string} password - required

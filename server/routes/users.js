@@ -63,7 +63,12 @@ router.post("/users", async (req, res) => {
                     success: true,
                     msg: "User has been saved to the database"
                 })
+                return
             } catch (err) {
+                res.json({
+                    success: false,
+                    msg: "User has not been saved to the database"
+                });
                 throw err
             }
         })
@@ -125,12 +130,12 @@ router.put("/users", async (req, res) => {
 
 
 // DELETE - delete credentials
-router.put("/users", async (req, res) => {
+router.delete("/users", async (req, res) => {
     try {
         let authenticated = await authenticate(req);
         if (authenticated) {
-            let user = extractCredentials(req);
-            User.findOneAndDelete({username: user.username})
+            let {username, password} = extractCredentials(req);
+            User.findOneAndDelete({username: username}).exec();
 
             res.json({
                 success: true,
