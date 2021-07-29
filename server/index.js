@@ -5,6 +5,7 @@ API requests for the app and interface with the database.
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
 
 
 // Load .env variables into process environment.
@@ -33,6 +34,7 @@ const app = express();
 // Load in middleware
 app.use(express.json()); // Enable JSON requests and responses.
 app.use(express.urlencoded({extended: true}));
+app.use(morgan());
 
 
 // CRUD API router middleware
