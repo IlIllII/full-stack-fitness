@@ -1,6 +1,11 @@
+/**
+ * @file CRUD API route for user authentication.
+ */
+
 const express = require("express");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken")
 
 
 
@@ -18,7 +23,9 @@ const router = express.Router();
 function extractCredentials(req) {
     // Currently we transmit credentials via an authorization header:
     // "Basic user:password"
-    let [username, password] = req.headers.authorization.split(" ")[1].split(":");
+    let [type, credential] = req.headers.authorization.split(" ")
+    let buff = Buffer.from(credential, "base64");
+    let [username, password] = buff.toString("ascii").split(":");
     return {username: username, password: password}
 }
 
@@ -61,7 +68,8 @@ router.post("/users", async (req, res) => {
                 await user.save(); // Save new user to the database.
                 res.json({ // Send back success message and exit function.
                     success: true,
-                    msg: "User has been saved to the database"
+                    msg: "User has been saved to the database",
+                    token: jwt.sign({username: user.username, exp: Math.floor(Date.now() / 1000) + 60*60*24*30}, "mysecret") // Token valid for 1 month
                 })
                 return
             } catch (err) {
@@ -94,11 +102,13 @@ router.get("/users", async (req, res) => {
     For further details, see the POST method documentation above.
     */
     try {
+        let {username, password} = extractCredentials(req);
         let authenticated = await authenticate(req);
         if (authenticated) {
             res.json({
                 success: true,
-                msg: "User successfully authenticated"
+                msg: "User successfully authenticated",
+                token: jwt.sign({username: username, exp: Math.floor(Date.now() / 1000) + 60*60*24*30}, "mysecret")
             });
         } else {
             res.json({
