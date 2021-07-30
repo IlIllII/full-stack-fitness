@@ -35,10 +35,11 @@ const app = express();
 app.use(express.json()); // Enable JSON requests and responses.
 app.use(express.urlencoded({extended: true}));
 app.use(morgan());
+app.use(require("./middleware/auth")()); // token authentication
 
 
 // CRUD API router middleware
-app.use("/users", require("./routes/users")); // User authentication
+app.use("/users", require("./routes/users")); // User login
 
 
 // Listen on a port.

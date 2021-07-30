@@ -26,7 +26,7 @@ function extractCredentials(req) {
     let [type, credential] = req.headers.authorization.split(" ")
     let buff = Buffer.from(credential, "base64");
     let [username, password] = buff.toString("ascii").split(":");
-    return {username: username, password: password}
+    return { username: username, password: password }
 }
 
 
@@ -38,8 +38,8 @@ function extractCredentials(req) {
  */
 async function authenticate(req) {
     try {
-        let {username, password} = extractCredentials(req);
-        let user = await User.findOne({username: username}); // Query db.
+        let { username, password } = extractCredentials(req);
+        let user = await User.findOne({ username: username }); // Query db.
         let authenticated = await bcrypt.compare(password, user.password);
         return authenticated
     } catch (err) {
@@ -56,8 +56,8 @@ router.post("/", async (req, res) => {
     */
     try {
         // Parsing request for credentials.
-        let {username, password} = extractCredentials(req);
-        
+        let { username, password } = extractCredentials(req);
+
         // bcrypt creates 60-char long salted hash:
         // $[algo used]$[hashing cost]$[16-byte salt][24-byte hash]
         bcrypt.hash(password, 10, async (err, hash) => {
@@ -69,7 +69,7 @@ router.post("/", async (req, res) => {
                 res.json({ // Send back success message and exit function.
                     success: true,
                     msg: "User has been saved to the database",
-                    token: jwt.sign({username: user.username, exp: Math.floor(Date.now() / 1000) + 60*60*24*30}, "mysecret") // Token valid for 1 month
+                    token: jwt.sign({ username: user.username, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, process.env.SECRETKEY) // Token valid for 1 month
                 })
                 return
             } catch (err) {
@@ -102,18 +102,21 @@ router.get("/", async (req, res) => {
     For further details, see the POST method documentation above.
     */
     try {
-        let {username, password} = extractCredentials(req);
+        let { username, password } = extractCredentials(req);
         let authenticated = await authenticate(req);
         if (authenticated) {
+            let token = jwt.sign({ username: username, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, process.env.SECRETKEY);
+                
             res.json({
                 success: true,
-                msg: "User successfully authenticated",
-                token: jwt.sign({username: username, exp: Math.floor(Date.now() / 1000) + 60*60*24*30}, "mysecret")
-            });
+                msg: "User authenticated",
+                token: token
+            })
         } else {
             res.json({
                 success: false,
-                msg: "Invalid credentials, could not authenticate"
+                msg: "Invalid credentials, could not authenticate",
+                token: token
             })
         }
         return
@@ -144,8 +147,8 @@ router.delete("/", async (req, res) => {
     try {
         let authenticated = await authenticate(req);
         if (authenticated) {
-            let {username, password} = extractCredentials(req);
-            User.findOneAndDelete({username: username}).exec();
+            let { username, password } = extractCredentials(req);
+            User.findOneAndDelete({ username: username }).exec();
 
             res.json({
                 success: true,
