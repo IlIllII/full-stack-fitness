@@ -6,6 +6,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
+const cors = require("cors");
 
 
 // Load .env variables into process environment.
@@ -35,6 +36,7 @@ const app = express();
 app.use(express.json()); // Enable JSON requests and responses.
 app.use(express.urlencoded({extended: true}));
 app.use(morgan());
+app.use(cors());
 app.use(require("./middleware/auth")()); // token authentication
 
 

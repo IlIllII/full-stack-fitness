@@ -23,6 +23,8 @@ const router = express.Router();
 function extractCredentials(req) {
     // Currently we transmit credentials via an authorization header:
     // "Basic user:password"
+    console.log("Auth header:")
+    console.log(req.headers.authorization)
     let [type, credential] = req.headers.authorization.split(" ")
     let buff = Buffer.from(credential, "base64");
     let [username, password] = buff.toString("ascii").split(":");
