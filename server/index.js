@@ -38,8 +38,7 @@ app.use(morgan());
 
 
 // CRUD API router middleware
-/* Empty rn */
-app.use("/", require("./routes/users"));
+app.use("/users", require("./routes/users")); // User authentication
 
 
 // Listen on a port.

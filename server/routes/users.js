@@ -49,7 +49,7 @@ async function authenticate(req) {
 
 
 // POST - create a new user
-router.post("/users", async (req, res) => {
+router.post("/", async (req, res) => {
     /*
     We want to create new user credentials from http request
     and then save those credentials in our database.
@@ -96,7 +96,7 @@ router.post("/users", async (req, res) => {
 
 
 // GET - authenticate a username/password combo.
-router.get("/users", async (req, res) => {
+router.get("/", async (req, res) => {
     /*
     The GET method authenticates users.
     For further details, see the POST method documentation above.
@@ -130,7 +130,7 @@ router.get("/users", async (req, res) => {
 
 // PUT - update password
 // TODO - need to implement 
-router.put("/users", async (req, res) => {
+router.put("/", async (req, res) => {
     console.log("Put request to /users has not been implemented yet.")
     res.json({
         success: false,
@@ -140,7 +140,7 @@ router.put("/users", async (req, res) => {
 
 
 // DELETE - delete credentials
-router.delete("/users", async (req, res) => {
+router.delete("/", async (req, res) => {
     try {
         let authenticated = await authenticate(req);
         if (authenticated) {
