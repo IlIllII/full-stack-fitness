@@ -3,6 +3,9 @@ const User = require("../models/users");
 const jwt = require("jsonwebtoken")
 
 
+function redirect(res) {
+    console.log("User should be redirected to login d/t missing token.")
+}
 
 
 module.exports = () => {
@@ -10,7 +13,7 @@ module.exports = () => {
         console.log(req.url);
 
         if (req.url == "/login") {
-            res.sendFile(__dirname + "/views/login.html")
+            redirect(res)
             res.end();
             return
         } else if (req.url == "/users") {
@@ -28,12 +31,12 @@ module.exports = () => {
                 }
             } catch(err) {
                 console.log(err);
-                res.status(401).sendFile(__dirname + "/views/login.html")
+                redirect(res)
                 res.end();
                 return
             }
         }
-        res.status(401).sendFile(__dirname + "/views/login.html");
+        redirect(res)
         res.end();
         return
     }
