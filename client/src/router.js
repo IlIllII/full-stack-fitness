@@ -2,6 +2,7 @@ import { /*createRenderer,*/ createRouter, createWebHistory, /*RouterView*/ } fr
 
 import Register from "./components/Register"
 import HelloWorld from "./components/HelloWorld"
+import Login from "./components/Login"
 
 export const routerHistory = createWebHistory();
 export const router = createRouter({
@@ -9,6 +10,7 @@ export const router = createRouter({
     routes: [
         { path: '/home', redirect: '/'},
         { path: '/', component: HelloWorld},
-        { path: '/register', component: Register}
+        { path: '/register', component: Register},
+        { path: "/login", component: Login },
     ]
 })

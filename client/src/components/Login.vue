@@ -1,11 +1,11 @@
 <template>
 <div>
-    <h2>Registration</h2>
+    <h2>Login</h2>
     <label for="username-input">Username</label>
     <input type="text" id="username-input" v-model="username">
     <label for="password-input">Password</label>
     <input type="password" id="password-input" v-model="password">
-    <button @click="onRegister()">Register</button>
+    <button @click="onLogin()">Login</button>
 </div>
 
 </template>
@@ -22,13 +22,14 @@ export default {
         }
     },
     methods: {
-        async onRegister() {
+        async onLogin() {
 
             // Encode credentials into base64
             let credentials = btoa(`${this.username}:${this.password}`)
 
+            // Authenticate at server
             const response = await fetch(API.baseURL + "/users", {
-                method: "POST",
+                method: "GET",
                 mode: "cors",
                 headers: {
                     "authorization": `Basic ${credentials}`
@@ -38,7 +39,7 @@ export default {
             // Parse response and store token/redirect as needed
             response.json().then((data) => {
                 if (data.success == false) {
-                    alert("Registration Failed.") // TODO: Improve this
+                    alert("Login Failed.") // TODO: Improve this
                 } else if (data.success == true) {
                     window.localStorage.setItem("token", data.token)
                     window.localStorage.setItem("username", this.username)
