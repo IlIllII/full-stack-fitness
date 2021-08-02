@@ -108,11 +108,14 @@ router.get("/", async (req, res) => {
         let authenticated = await authenticate(req);
         if (authenticated) {
             let token = jwt.sign({ username: username, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, process.env.SECRETKEY);
+
+            let { username, password } = extractCredentials(req);
+            let user = await User.findOne({ username: username });
                 
             res.json({
                 success: true,
                 msg: "User authenticated",
-                token: token
+                token: token,
             })
         } else {
             res.json({

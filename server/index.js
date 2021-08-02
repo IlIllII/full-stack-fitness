@@ -35,13 +35,14 @@ const app = express();
 // Load in middleware
 app.use(express.json()); // Enable JSON requests and responses.
 app.use(express.urlencoded({extended: true}));
-app.use(morgan());
+app.use(morgan("dev"));
 app.use(cors());
 app.use(require("./middleware/auth")()); // token authentication
 
 
 // CRUD API router middleware
 app.use("/users", require("./routes/users")); // User login
+app.use("/workout", require("./routes/workoutHistory"));
 
 
 // Listen on a port.

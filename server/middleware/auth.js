@@ -21,7 +21,7 @@ module.exports = () => {
             return
         } else {
             try {
-                let [type, value] = req.headers.authorization.split(" ");
+                let [type, token] = req.headers.authorization.split(" ");
                 if (type == "Bearer") {
                     let decoded = jwt.verify(token, process.env.SECRETKEY);
                     console.log("Token recieved, decoding...")

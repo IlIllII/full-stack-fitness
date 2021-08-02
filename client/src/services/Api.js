@@ -46,10 +46,18 @@ async function fetchEndpoint(method, endpoint, router, callback, body = {}) {
     });
 }
 
+function testWindow() {
+    let username = window.localStorage.getItem("username");
+    let token = window.localStorage.getItem("token");
+    console.log(username)
+    console.log(token)
+}
+
 
 const API = {
     baseURL: baseURL,
     fetchEndpoint: fetchEndpoint,
+    testWindow: testWindow,
 }
 
 module.exports = API
