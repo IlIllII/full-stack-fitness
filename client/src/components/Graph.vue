@@ -1,7 +1,6 @@
 <template>
-    <div>
-        <h3>{{title}}</h3>
-        <div id="chart"></div>
+    <div class="main">
+        <div :id="title"></div>
     </div>
 </template>
 
@@ -28,10 +27,10 @@ export default {
     methods: {
         generateChart() {
             const margin = {top: 10, right: 30, bottom: 30, left: 60},
-                width = 460 - margin.left - margin.right,
-                height = 400 - margin.top - margin.bottom;
+                width = /*460*/ 400 - margin.left - margin.right,
+                height = /*400*/ 340 - margin.top - margin.bottom;
             
-            const svg = d3.select("#chart")
+            const svg = d3.select(`#${this.title}`)
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
@@ -95,3 +94,29 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    margin: auto;
+}
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+</style>

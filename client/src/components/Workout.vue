@@ -1,14 +1,18 @@
 <template>
   <div class="main">
+    <Navbar />
     <!-- TESTING CHARTS -->
     <div id="workout-A" v-if="workoutHistory.lastWorkout == 'B'">
       <div class="workout-container">
         <h1>Workout A</h1>
 
+        <hr>
+        <h2>Deadlift</h2>
+
         <div class="lift">
-          <Graph title="Deadlift" :data="workoutHistory.deadlift" />
+          
+          <!-- Deadlift Container -->
           <div class="exercise-container">
-            <h2>Deadlift</h2>
 
             <div class="label-container">
               <label for="">Weight</label>
@@ -16,25 +20,29 @@
             </div>
 
             <div class="label-container">
-              <label for="">Sets</label>
+              <label for="">Sets </label>
               <input v-model="deadliftSets" class="text-input" type="text" />
             </div>
 
             <div class="label-container">
-              <label for="">Reps</label>
+              <label for="">Reps </label>
               <input v-model="deadliftReps" class="text-input" type="text" />
             </div>
 
             <label for="">Failed?</label>
             <input v-model="deadliftFail" type="checkbox" name="" id="" />
           </div>
+
+          <Graph title="Deadlift" :data="workoutHistory.deadlift" />
         </div>
 
+        <hr>
+        <h2>Shoulder Press</h2>
         <div class="lift">
-          <Graph title="Shoulder Press" :data="workoutHistory.press" />
+          
+          <!-- Shoulder Press Container -->
           <div class="exercise-container">
-            <h2>Shoulder Press</h2>
-
+            
             <div class="label-container">
               <label for="">Weight</label>
               <input v-model="pressWeight" class="text-input" type="text" />
@@ -53,11 +61,17 @@
             <label for="">Failed?</label>
             <input v-model="pressFail" type="checkbox" name="" id="" />
           </div>
+
+          <Graph title="Shoulder-Press" :data="workoutHistory.press" />
         </div>
 
+        <hr>
+        <h2>Pullups</h2>
         <div class="lift">
+        
+        <!-- Pullups Container -->
         <div class="exercise-container">
-          <h2>Pullups</h2>
+          
 
           <div class="label-container">
             <label for="">Weight</label>
@@ -84,8 +98,11 @@
       <div class="workout-container">
         <h1>Workout B</h1>
 
+
+        <hr>
+        <h2>Squat</h2>
+        <div class="lift">
         <div class="exercise-container">
-          <h2>Squat</h2>
 
           <div class="label-container">
             <label for="">Weight</label>
@@ -105,9 +122,16 @@
           <label for="">Failed?</label>
           <input v-model="squatFail" type="checkbox" name="" id="" />
         </div>
+        <Graph title="Squats" :data="workoutHistory.squat" />
+        </div>
 
+
+
+        <hr>
+        <h2>Bench Press</h2>
+        <div class="lift">
         <div class="exercise-container">
-          <h2>Bench Press</h2>
+          
 
           <div class="label-container">
             <label for="">Weight</label>
@@ -127,7 +151,13 @@
           <label for="">Failed?</label>
           <input v-model="benchFail" type="checkbox" name="" id="" />
         </div>
+        <Graph title="Bench-Press" :data="workoutHistory.bench" />
+        </div>
 
+
+        <hr>
+        <h2>Row</h2>
+        <div class="lift">
         <div class="exercise-container">
           <h2>Row</h2>
 
@@ -149,11 +179,14 @@
           <label for="">Failed?</label>
           <input v-model="rowFail" type="checkbox" name="" id="" />
         </div>
+        <Graph title="Row" :data="workoutHistory.row" />
+        </div>
 
         <hr />
         <button @click="submitB">Submit</button>
       </div>
     </div>
+    <Footer />
   </div>
 </template>
 
@@ -161,14 +194,15 @@
 <script>
 import API from "../services/Api";
 import Graph from "./Graph.vue";
+import Footer from "./Footer.vue"
+import Navbar from "./Navbar.vue"
 
 export default {
-  components: { Graph },
-  // data() {
-  //     return {
-  //         workoutHistory: "",
-  //     }
-  // },
+  components: {
+    Graph,
+    Footer,
+    Navbar
+    },
   data() {
     return {
       workoutHistory: "",
@@ -227,12 +261,12 @@ export default {
 
           if (hx.bench[hx.bench.length - 1].failed == true) {
             this.benchWeight =
-              Math.round((hx.bench[hx.bench.length - 1].weight * 0.8) / 10) *
+              Math.round((hx.bench[hx.bench.length - 1].weight * 0.9) / 10) *
               10;
           } else {
             this.benchWeight =
               hx.bench[hx.bench.length - 1].weight +
-              2.5 * 2 ** Math.max(2 - hx.benchFails, 0);
+              2.5 * 2 ** Math.max(3 - hx.benchFails, 1);
           }
           this.benchSets = 3;
           this.benchReps = 5;
@@ -240,12 +274,12 @@ export default {
 
           if (hx.press[hx.press.length - 1].failed == true) {
             this.pressWeight =
-              Math.round((hx.press[hx.press.length - 1].weight * 0.8) / 10) *
+              Math.round((hx.press[hx.press.length - 1].weight * 0.9) / 10) *
               10;
           } else {
             this.pressWeight =
               hx.press[hx.press.length - 1].weight +
-              2.5 * 2 ** Math.max(2 - hx.pressFails, 0);
+              2.5 * 2 ** Math.max(3 - hx.pressFails, 1);
           }
           this.pressSets = 3;
           this.pressReps = 5;
@@ -253,12 +287,12 @@ export default {
 
           if (hx.squat[hx.squat.length - 1].failed == true) {
             this.squatWeight =
-              Math.round((hx.squat[hx.squat.length - 1].weight * 0.8) / 10) *
+              Math.round((hx.squat[hx.squat.length - 1].weight * 0.9) / 10) *
               10;
           } else {
             this.squatWeight =
               hx.squat[hx.squat.length - 1].weight +
-              2.5 * 2 ** Math.max(2 - hx.squatFails, 0);
+              2.5 * 2 ** Math.max(3 - hx.squatFails, 1);
           }
           this.squatSets = 3;
           this.squatReps = 5;
@@ -267,12 +301,12 @@ export default {
           if (hx.deadlift[hx.deadlift.length - 1].failed == true) {
             this.deadliftWeight =
               Math.round(
-                (hx.deadlift[hx.deadlift.length - 1].weight * 0.8) / 10
+                (hx.deadlift[hx.deadlift.length - 1].weight * 0.9) / 10
               ) * 10;
           } else {
             this.deadliftWeight =
               hx.deadlift[hx.deadlift.length - 1].weight +
-              2.5 * 2 ** Math.max(2 - hx.deadliftFails, 0);
+              2.5 * 2 ** Math.max(3 - hx.deadliftFails, 1);
           }
           this.deadliftSets = 3;
           this.deadliftReps = 5;
@@ -280,11 +314,11 @@ export default {
 
           if (hx.row[hx.row.length - 1].failed == true) {
             this.rowWeight =
-              Math.round((hx.row[hx.row.length - 1].weight * 0.8) / 10) * 10;
+              Math.round((hx.row[hx.row.length - 1].weight * 0.9) / 10) * 10;
           } else {
             this.rowWeight =
               hx.row[hx.row.length - 1].weight +
-              2.5 * 2 ** Math.max(2 - hx.rowFails, 0);
+              2.5 * 2 ** Math.max(3 - hx.rowFails, 1);
           }
           this.rowSets = 3;
           this.rowReps = 5;
@@ -355,7 +389,7 @@ export default {
         console.log(res);
       });
       alert("Workout logged.");
-      this.$router.push("/");
+      this.$router.push("/#nav");
     },
     submitA() {
       let deadlift = {
@@ -407,7 +441,7 @@ export default {
         console.log(res);
       });
       alert("Workout logged.");
-      this.$router.push("/");
+      this.$router.push("/#nav");
     },
   },
 };
@@ -416,34 +450,65 @@ export default {
 
 
 <style scoped>
-.main {
-  width: 90%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-}
-
 .workout-container {
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-.label-container {
+  max-width: 50em;
   margin: auto;
-  max-width: 10em;
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-.text-input {
-  max-width: 5em;
+  padding: 3em;
 }
 
 .lift {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 2em;
 }
+
+.exercise-container {
+  margin: auto;
+}
+
+.label-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+}
+
+.text-input {
+  width: 4em;
+  height: 2em;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  text-align: right;
+}
+
+.text-input:focus {
+  outline: none;
+  border: 1px solid cornflowerblue;
+  box-shadow: 0 0 0 1pt cornflowerblue;
+}
+
+label {
+  padding: 0 5px 0 0;
+}
+
+button {
+  color: white;
+  background-color: cornflowerblue;
+  border: 0;
+  height: 3.5em;
+  width: 10em;
+  border-radius: 8px;
+  margin: 30px auto;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: rgb(88, 139, 233);
+}
+
 </style>

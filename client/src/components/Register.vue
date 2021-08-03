@@ -1,11 +1,23 @@
 <template>
-  <div>
+  <div class="main">
+    <a href="/"><img src="../assets/bench-press.gif"/></a>
+
     <h2>Registration</h2>
-    <label for="username-input">Username</label>
-    <input type="text" id="username-input" v-model="username" />
-    <label for="password-input">Password</label>
-    <input type="password" id="password-input" v-model="password" />
+    <div class="input-duo">
+      <label for="username-input"><strong>Username</strong></label>
+      <input type="text" id="username-input" v-model="username" />
+    </div>
+    <div class="input-duo">
+      <label for="password-input"><strong>Password</strong></label>
+      <input type="password" id="password-input" v-model="password" />
+    </div>
+
     <button @click="onRegister()">Register</button>
+    <p style="font-size: 10px">Already have an account?
+      <a href="/login">Login</a>
+      <br>
+      <a style="font-size: 4px" href="https://icons8.com/icon/gaokY6HiHgpc/deadlift">Deadlift icon by Icons8</a>
+    </p>
   </div>
 </template>
 
@@ -136,3 +148,55 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.main {
+  margin: auto;
+  padding: 10px;
+  width: 20em;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.input-duo {
+  width: 15em;
+  display: flex;
+  flex-direction: column;
+  margin: 10px auto;
+}
+
+label {
+  text-align: left;
+}
+
+input {
+  height: 2em;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid cornflowerblue;
+}
+
+button {
+  color: white;
+  background-color: cornflowerblue;
+  border: 0;
+  height: 3.5em;
+  width: 10em;
+  border-radius: 8px;
+  margin: 10px auto;
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: rgb(88, 139, 233);
+}
+
+</style>
