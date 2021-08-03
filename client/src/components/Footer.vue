@@ -9,6 +9,8 @@
             <a href="/privacy">Privacy Policy</a>
             <span> | </span>
             <a href="/license">WTFPL</a>
+            <span> | </span>
+            <a href="https://icons8.com/">Icons from Icons8</a>
         </div>
     </div>
 </template>
