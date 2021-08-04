@@ -6,7 +6,7 @@
  * Might create a wrapper for token auth and redirection, but
  * have no need for it yet.
  */
-const baseURL = "http://localhost:3000"
+const baseURL = process.env.baseURL || "http://localhost:3000"
 
 
 // ******* Have to consider scope issues when using this function, there may be a better way to make a wrapper function for this. Particularly, check:
