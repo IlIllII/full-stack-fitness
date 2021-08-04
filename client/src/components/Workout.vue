@@ -155,13 +155,38 @@
 
 
 <script>
-// TODO: Major refactor of the data() and methods() exports.
+// TODO: Refactor the data() exports.
 import API from "../services/Api";
 import Graph from "./Graph.vue";
 import Footer from "./Footer.vue";
 import Navbar from "./Navbar.vue";
 
+// Helper Functions
+/**
+ * Take workout session data and package it as an object.
+ * 
+ * @arg {Number} weight - this.weight
+ * @arg {Number} sets - this.sets
+ * @arg {Number} reps - this.reps
+ * @arg {Number} fails - this.fail
+ */
+function workoutSession(weight, sets, reps, fails) {
+  return {
+    date: Date.now(),
+    weight: weight,
+    sets: sets,
+    reps: reps,
+    failed: fails,
+  }
+}
 
+/**
+ * Send workout history data to API endpoint in a PUT request
+ * to update database with the data taken from user input.
+ * 
+ * @arg {Object} hx - this.workoutHistory
+ * @arg {VueRouter} router - this.$router
+ */
 function sendData(hx, router) {
   fetch(`${API.baseURL}/workout/${window.localStorage.getItem("username")}`, {
     method: "PUT",
@@ -344,27 +369,17 @@ export default {
      * send a PUT request to API.
      */
     submitB() {
-      let squat = {
-        date: Date.now(),
-        weight: this.squatWeight,
-        sets: this.squatSets,
-        reps: this.squatReps,
-        failed: this.squatFail,
-      };
-      let bench = {
-        date: Date.now(),
-        weight: this.benchWeight,
-        sets: this.benchSets,
-        reps: this.benchReps,
-        failed: this.benchFail,
-      };
-      let row = {
-        date: Date.now(),
-        weight: this.rowWeight,
-        sets: this.rowSets,
-        reps: this.rowReps,
-        failed: this.rowFail,
-      };
+      let squat = workoutSession(
+        this.squatWeight, this.squatSets, this.squatReps, this.squatFail
+        );
+
+      let bench = workoutSession(
+        this.benchWeight, this.benchSets, this.benchReps, this.benchFail
+        );
+
+      let row = workoutSession(
+        this.rowWeight, this.rowSets, this.rowReps, this.rowFail
+        );
 
       this.workoutHistory.bench.push(bench);
       this.workoutHistory.squat.push(squat);
@@ -384,21 +399,19 @@ export default {
 
       sendData(this.workoutHistory, this.$router);
     },
+    /**
+     * Update workout history with data from user input and
+     * send a PUT request to API.
+     */
     submitA() {
-      let deadlift = {
-        date: Date.now(),
-        weight: this.deadliftWeight,
-        sets: this.deadliftSets,
-        reps: this.deadliftReps,
-        failed: this.deadliftFail,
-      };
-      let press = {
-        date: Date.now(),
-        weight: this.pressWeight,
-        sets: this.pressSets,
-        reps: this.pressReps,
-        failed: this.pressFail,
-      };
+      let deadlift = workoutSession(
+        this.deadliftWeight, this.deadliftSets, this.deadliftReps, this.deadliftFail
+        );
+
+      let press = workoutSession(
+        this.pressWeight, this.pressSets, this.pressReps, this.pressFail
+        );
+
       let pullups = {
         date: Date.now(),
         weight: this.pullupWeight,
@@ -424,7 +437,6 @@ export default {
   },
 };
 </script>
-
 
 
 <style scoped>
