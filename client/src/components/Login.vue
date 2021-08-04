@@ -1,8 +1,6 @@
 <template>
   <div class="main">
-    <a href="/"><img src="../assets/deadlift.gif"/></a>
-    
-    
+    <a href="/"><img src="../assets/deadlift.gif" /></a>
     <h2>Login</h2>
     <div class="input-duo">
       <label for="username-input"><strong>Username</strong></label>
@@ -16,8 +14,13 @@
     <p style="font-size: 10px">
       Don't have an account?
       <a href="/register">Register</a>
-      <br>
-      <a style="font-size: 4px" href="https://icons8.com/icon/gaokY6HiHgpc/deadlift">Deadlift icon by Icons8</a>
+      <br />
+      <a
+        style="font-size: 4px"
+        href="https://icons8.com/icon/gaokY6HiHgpc/deadlift"
+      >
+        Deadlift icon by Icons8
+      </a>
     </p>
   </div>
 </template>

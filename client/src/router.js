@@ -6,7 +6,6 @@
 import { createRouter, createWebHistory, } from "vue-router"
 import Register from "./components/Register"
 import Login from "./components/Login"
-import Test from "./components/Test"
 import Workout from "./components/Workout"
 import Home from "./components/Home"
 import About from "./components/About"
@@ -21,7 +20,6 @@ export const router = createRouter({
         { path: '/', component: Home },
         { path: '/register', component: Register },
         { path: "/login", component: Login },
-        { path: "/test", component: Test },
         { path: "/workout", component: Workout },
         { path: "/about", component: About },
         { path: "/license", component: License },

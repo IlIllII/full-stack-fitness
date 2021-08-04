@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <a href="/"><img src="../assets/bench-press.gif"/></a>
+    <a href="/"><img src="../assets/bench-press.gif" /></a>
 
     <h2>Registration</h2>
     <div class="input-duo">
@@ -13,10 +13,15 @@
     </div>
 
     <button @click="onRegister()">Register</button>
-    <p style="font-size: 10px">Already have an account?
+    <p style="font-size: 10px">
+      Already have an account?
       <a href="/login">Login</a>
-      <br>
-      <a style="font-size: 4px" href="https://icons8.com/icon/gaokY6HiHgpc/deadlift">Deadlift icon by Icons8</a>
+      <br />
+      <a
+        style="font-size: 4px"
+        href="https://icons8.com/icon/gaokY6HiHgpc/deadlift"
+        >Deadlift icon by Icons8</a
+      >
     </p>
   </div>
 </template>
@@ -34,9 +39,10 @@ export default {
   },
   methods: {
     async onRegister() {
-      // Encode credentials into base64
+      // Encode credentials from user input into base64.
       let credentials = btoa(`${this.username}:${this.password}`);
 
+      // Send POST request to API with credentials.
       const response = await fetch(API.baseURL + "/users", {
         method: "POST",
         mode: "cors",
@@ -45,13 +51,13 @@ export default {
         },
       });
 
-      // Parse response and store token/redirect as needed
+      // Parse response and store token/redirect as needed.
       response
         .json()
         .then((data) => {
           console.log(data);
           if (data.success == false) {
-            alert("Registration Failed."); // TODO: Improve this
+            alert("Registration Failed."); // TODO: Improve this?
           } else if (data.success == true) {
             console.log(data);
             window.localStorage.setItem("token", data.token);
@@ -129,7 +135,7 @@ export default {
               squatFails: 0,
               deadliftFails: 0,
               rowFails: 0,
-              lastWorkout: "A",
+              lastWorkout: "B",
             }),
           });
           return res;
@@ -198,5 +204,4 @@ button:hover {
   cursor: pointer;
   background-color: rgb(88, 139, 233);
 }
-
 </style>
