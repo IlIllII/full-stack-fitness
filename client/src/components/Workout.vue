@@ -161,6 +161,23 @@ import Graph from "./Graph.vue";
 import Footer from "./Footer.vue";
 import Navbar from "./Navbar.vue";
 
+
+function sendData(hx, router) {
+  fetch(`${API.baseURL}/workout/${window.localStorage.getItem("username")}`, {
+    method: "PUT",
+    mode: "cors",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${window.localStorage.getItem("token")}`,
+    },
+    body: JSON.stringify(hx),
+  }).then((res) => {
+    console.log(res);
+  });
+  alert("Workout logged.");
+  router.push("/#nav");
+}
+
 export default {
   components: {
     Graph,
@@ -168,7 +185,8 @@ export default {
     Navbar,
   },
   data() {
-    return { // Initialize blank workout history data.
+    return {
+      // Initialize blank workout history data.
       workoutHistory: "",
 
       benchWeight: 0,
@@ -201,11 +219,13 @@ export default {
       pullupReps: 0,
     };
   },
-  async mounted() { // Fetch workout history data from API.
+  async mounted() {
+    // Fetch workout history data from API.
     try {
       console.log("Loading data...");
       let username = window.localStorage.getItem("username");
-      if (!username) { // If token doesn't exist.
+      if (!username) {
+        // If token doesn't exist.
         this.$router.push("/login");
       }
 
@@ -218,7 +238,8 @@ export default {
         },
       })
         .then((res) => {
-          if (res.status == 401) { // If token is bad.
+          if (res.status == 401) {
+            // If token is bad.
             this.$router.push("/login");
           }
           return res;
@@ -361,22 +382,7 @@ export default {
       this.workoutHistory.lastWorkout = "B";
       console.log(this.workoutHistory);
 
-      fetch(
-        API.baseURL + "/workout/" + window.localStorage.getItem("username"),
-        {
-          method: "PUT",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${window.localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(this.workoutHistory),
-        }
-      ).then((res) => {
-        console.log(res);
-      });
-      alert("Workout logged.");
-      this.$router.push("/#nav");
+      sendData(this.workoutHistory, this.$router);
     },
     submitA() {
       let deadlift = {
@@ -413,22 +419,7 @@ export default {
       this.workoutHistory.lastWorkout = "A";
       console.log(this.workoutHistory);
 
-      fetch(
-        API.baseURL + "/workout/" + window.localStorage.getItem("username"),
-        {
-          method: "PUT",
-          mode: "cors",
-          headers: {
-            "Content-Type": "application/json",
-            authorization: `Bearer ${window.localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify(this.workoutHistory),
-        }
-      ).then((res) => {
-        console.log(res);
-      });
-      alert("Workout logged.");
-      this.$router.push("/#nav");
+      sendData(this.workoutHistory, this.$router);
     },
   },
 };
