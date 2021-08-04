@@ -1,4 +1,11 @@
-
+/**
+ * @file Module contains helpers for accessing the API
+ * 
+ * Currently only the baseURL is functional.
+ * 
+ * Might create a wrapper for token auth and redirection, but
+ * have no need for it yet.
+ */
 const baseURL = "http://localhost:3000"
 
 
@@ -9,6 +16,8 @@ const baseURL = "http://localhost:3000"
 
 
 /**
+ * DOES NOT WORK.
+ * 
  * Wrapper for sending API requests with JSON web tokens attached and
  * redirecting to a login page if token is invalid upon response from server.
  * 

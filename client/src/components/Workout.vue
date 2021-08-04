@@ -1,210 +1,174 @@
 <template>
   <div class="main">
     <Navbar />
-    <!-- TESTING CHARTS -->
+
+    <!-- Workout A -->
     <div id="workout-A" v-if="workoutHistory.lastWorkout == 'B'">
       <div class="workout-container">
         <h1>Workout A</h1>
-
-        <hr>
+        <hr />
         <h2>Deadlift</h2>
-
         <div class="lift">
-          
           <!-- Deadlift Container -->
           <div class="exercise-container">
-
             <div class="label-container">
               <label for="">Weight</label>
               <input v-model="deadliftWeight" class="text-input" type="text" />
             </div>
-
             <div class="label-container">
               <label for="">Sets </label>
               <input v-model="deadliftSets" class="text-input" type="text" />
             </div>
-
             <div class="label-container">
               <label for="">Reps </label>
               <input v-model="deadliftReps" class="text-input" type="text" />
             </div>
-
             <label for="">Failed?</label>
             <input v-model="deadliftFail" type="checkbox" name="" id="" />
           </div>
-
           <Graph title="Deadlift" :data="workoutHistory.deadlift" />
         </div>
-
-        <hr>
+        <hr />
         <h2>Shoulder Press</h2>
         <div class="lift">
-          
           <!-- Shoulder Press Container -->
           <div class="exercise-container">
-            
             <div class="label-container">
               <label for="">Weight</label>
               <input v-model="pressWeight" class="text-input" type="text" />
             </div>
-
             <div class="label-container">
               <label for="">Sets</label>
               <input v-model="pressSets" class="text-input" type="text" />
             </div>
-
             <div class="label-container">
               <label for="">Reps</label>
               <input v-model="pressReps" class="text-input" type="text" />
             </div>
-
             <label for="">Failed?</label>
             <input v-model="pressFail" type="checkbox" name="" id="" />
           </div>
-
           <Graph title="Shoulder-Press" :data="workoutHistory.press" />
         </div>
-
-        <hr>
+        <hr />
         <h2>Pullups</h2>
         <div class="lift">
-        
-        <!-- Pullups Container -->
-        <div class="exercise-container">
-          
-
-          <div class="label-container">
-            <label for="">Weight</label>
-            <input v-model="pullupWeight" class="text-input" type="text" />
-          </div>
-
-          <div class="label-container">
-            <label for="">Sets</label>
-            <input v-model="pullupSets" class="text-input" type="text" />
-          </div>
-
-          <div class="label-container">
-            <label for="">Reps</label>
-            <input v-model="pullupReps" class="text-input" type="text" />
+          <!-- Pullups Container -->
+          <div class="exercise-container">
+            <div class="label-container">
+              <label for="">Weight</label>
+              <input v-model="pullupWeight" class="text-input" type="text" />
+            </div>
+            <div class="label-container">
+              <label for="">Sets</label>
+              <input v-model="pullupSets" class="text-input" type="text" />
+            </div>
+            <div class="label-container">
+              <label for="">Reps</label>
+              <input v-model="pullupReps" class="text-input" type="text" />
+            </div>
           </div>
         </div>
-        </div>
-
         <hr />
         <button @click="submitA">Submit</button>
       </div>
     </div>
+    <!-- End Workout A -->
+
+    <!-- Workout B -->
     <div id="workout-B" v-if="workoutHistory.lastWorkout == 'A'">
       <div class="workout-container">
         <h1>Workout B</h1>
-
-
-        <hr>
+        <hr />
         <h2>Squat</h2>
         <div class="lift">
-        <div class="exercise-container">
-
-          <div class="label-container">
-            <label for="">Weight</label>
-            <input v-model="squatWeight" class="text-input" type="text" />
+          <div class="exercise-container">
+            <div class="label-container">
+              <label for="">Weight</label>
+              <input v-model="squatWeight" class="text-input" type="text" />
+            </div>
+            <div class="label-container">
+              <label for="">Sets</label>
+              <input v-model="squatSets" class="text-input" type="text" />
+            </div>
+            <div class="label-container">
+              <label for="">Reps</label>
+              <input v-model="squatReps" class="text-input" type="text" />
+            </div>
+            <label for="">Failed?</label>
+            <input v-model="squatFail" type="checkbox" name="" id="" />
           </div>
-
-          <div class="label-container">
-            <label for="">Sets</label>
-            <input v-model="squatSets" class="text-input" type="text" />
-          </div>
-
-          <div class="label-container">
-            <label for="">Reps</label>
-            <input v-model="squatReps" class="text-input" type="text" />
-          </div>
-
-          <label for="">Failed?</label>
-          <input v-model="squatFail" type="checkbox" name="" id="" />
+          <Graph title="Squats" :data="workoutHistory.squat" />
         </div>
-        <Graph title="Squats" :data="workoutHistory.squat" />
-        </div>
-
-
-
-        <hr>
+        <hr />
         <h2>Bench Press</h2>
         <div class="lift">
-        <div class="exercise-container">
-          
-
-          <div class="label-container">
-            <label for="">Weight</label>
-            <input v-model="benchWeight" class="text-input" type="text" />
+          <div class="exercise-container">
+            <div class="label-container">
+              <label for="">Weight</label>
+              <input v-model="benchWeight" class="text-input" type="text" />
+            </div>
+            <div class="label-container">
+              <label for="">Sets</label>
+              <input v-model="benchSets" class="text-input" type="text" />
+            </div>
+            <div class="label-container">
+              <label for="">Reps</label>
+              <input v-model="benchReps" class="text-input" type="text" />
+            </div>
+            <label for="">Failed?</label>
+            <input v-model="benchFail" type="checkbox" name="" id="" />
           </div>
-
-          <div class="label-container">
-            <label for="">Sets</label>
-            <input v-model="benchSets" class="text-input" type="text" />
-          </div>
-
-          <div class="label-container">
-            <label for="">Reps</label>
-            <input v-model="benchReps" class="text-input" type="text" />
-          </div>
-
-          <label for="">Failed?</label>
-          <input v-model="benchFail" type="checkbox" name="" id="" />
+          <Graph title="Bench-Press" :data="workoutHistory.bench" />
         </div>
-        <Graph title="Bench-Press" :data="workoutHistory.bench" />
-        </div>
-
-
-        <hr>
+        <hr />
         <h2>Row</h2>
         <div class="lift">
-        <div class="exercise-container">
-          <h2>Row</h2>
-
-          <div class="label-container">
-            <label for="">Weight</label>
-            <input v-model="rowWeight" class="text-input" type="text" />
+          <div class="exercise-container">
+            <h2>Row</h2>
+            <div class="label-container">
+              <label for="">Weight</label>
+              <input v-model="rowWeight" class="text-input" type="text" />
+            </div>
+            <div class="label-container">
+              <label for="">Sets</label>
+              <input v-model="rowSets" class="text-input" type="text" />
+            </div>
+            <div class="label-container">
+              <label for="">Reps</label>
+              <input v-model="rowReps" class="text-input" type="text" />
+            </div>
+            <label for="">Failed?</label>
+            <input v-model="rowFail" type="checkbox" name="" id="" />
           </div>
-
-          <div class="label-container">
-            <label for="">Sets</label>
-            <input v-model="rowSets" class="text-input" type="text" />
-          </div>
-
-          <div class="label-container">
-            <label for="">Reps</label>
-            <input v-model="rowReps" class="text-input" type="text" />
-          </div>
-
-          <label for="">Failed?</label>
-          <input v-model="rowFail" type="checkbox" name="" id="" />
+          <Graph title="Row" :data="workoutHistory.row" />
         </div>
-        <Graph title="Row" :data="workoutHistory.row" />
-        </div>
-
         <hr />
         <button @click="submitB">Submit</button>
       </div>
     </div>
+    <!-- End Workout B -->
+
     <Footer />
   </div>
 </template>
 
 
 <script>
+// TODO: Major refactor of the data() and methods() exports.
 import API from "../services/Api";
 import Graph from "./Graph.vue";
-import Footer from "./Footer.vue"
-import Navbar from "./Navbar.vue"
+import Footer from "./Footer.vue";
+import Navbar from "./Navbar.vue";
 
 export default {
   components: {
     Graph,
     Footer,
-    Navbar
-    },
+    Navbar,
+  },
   data() {
-    return {
+    return { // Initialize blank workout history data.
       workoutHistory: "",
 
       benchWeight: 0,
@@ -237,13 +201,15 @@ export default {
       pullupReps: 0,
     };
   },
-  async mounted() {
+  async mounted() { // Fetch workout history data from API.
     try {
       console.log("Loading data...");
       let username = window.localStorage.getItem("username");
-      if (!username) {
+      if (!username) { // If token doesn't exist.
         this.$router.push("/login");
       }
+
+      // Handle token authentication and redirect prn.
       await fetch(API.baseURL + "/workout" + "/" + username, {
         method: "GET",
         mode: "cors",
@@ -251,22 +217,26 @@ export default {
           authorization: `Bearer ${window.localStorage.getItem("token")}`,
         },
       })
-      .then((res) => {
-        console.log(res)
-        if (res.status == 401) {
-          this.$router.push("/login")
-        }
-        return res
-      })
+        .then((res) => {
+          if (res.status == 401) { // If token is bad.
+            this.$router.push("/login");
+          }
+          return res;
+        })
         .then((res) => res.json())
         .then((data) => {
           if (data.success == false) {
-            this.$router.push("/login")
+            this.$router.push("/login");
           }
+
+          // TODO: Refactor, because a lot of the code is reused below.
+
+          // After token auth, we handle the JSON data from the server.
+          // We use the data to calculate suggested weight for each lift.
           this.workoutHistory = data.workoutHistory;
           let hx = this.workoutHistory;
-          console.log(hx.lastWorkout);
 
+          // Bench.
           if (hx.bench[hx.bench.length - 1].failed == true) {
             this.benchWeight =
               Math.round((hx.bench[hx.bench.length - 1].weight * 0.9) / 10) *
@@ -280,6 +250,7 @@ export default {
           this.benchReps = 5;
           this.benchFail = false;
 
+          // Shoulder Press.
           if (hx.press[hx.press.length - 1].failed == true) {
             this.pressWeight =
               Math.round((hx.press[hx.press.length - 1].weight * 0.9) / 10) *
@@ -293,6 +264,7 @@ export default {
           this.pressReps = 5;
           this.pressFail = false;
 
+          // Squat.
           if (hx.squat[hx.squat.length - 1].failed == true) {
             this.squatWeight =
               Math.round((hx.squat[hx.squat.length - 1].weight * 0.9) / 10) *
@@ -306,6 +278,7 @@ export default {
           this.squatReps = 5;
           this.squatFail = false;
 
+          // Deadlift.
           if (hx.deadlift[hx.deadlift.length - 1].failed == true) {
             this.deadliftWeight =
               Math.round(
@@ -320,6 +293,7 @@ export default {
           this.deadliftReps = 5;
           this.deadliftFail = false;
 
+          // Row.
           if (hx.row[hx.row.length - 1].failed == true) {
             this.rowWeight =
               Math.round((hx.row[hx.row.length - 1].weight * 0.9) / 10) * 10;
@@ -332,6 +306,7 @@ export default {
           this.rowReps = 5;
           this.rowFail = false;
 
+          // Pullups.
           this.pullupWeight = hx.pullups[hx.pullups.length - 1].weight;
           this.pullupSets = 3;
           this.pullupReps = 8;
@@ -343,6 +318,10 @@ export default {
     }
   },
   methods: {
+    /**
+     * Update workout history with data from user input and
+     * send a PUT request to API.
+     */
     submitB() {
       let squat = {
         date: Date.now(),
@@ -518,5 +497,4 @@ button:hover {
   cursor: pointer;
   background-color: rgb(88, 139, 233);
 }
-
 </style>

@@ -20,9 +20,9 @@ module.exports = () => {
             return
         } else {
             try {
+                let [type, token] = req.headers.authorization.split(" ");
                 if (type == "Bearer") {
                     let decoded = jwt.verify(token, process.env.SECRETKEY); // Throws err if fails.
-                    let [type, token] = req.headers.authorization.split(" ");
                     next();
                     return
                 }
