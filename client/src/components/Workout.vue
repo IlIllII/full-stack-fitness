@@ -238,7 +238,6 @@ export default {
     };
   },
   async mounted() {
-    console.log("loading data");
     try {
       console.log("Loading data...");
       let username = window.localStorage.getItem("username");
@@ -252,9 +251,18 @@ export default {
           authorization: `Bearer ${window.localStorage.getItem("token")}`,
         },
       })
+      .then((res) => {
+        console.log(res)
+        if (res.status == 401) {
+          this.$router.push("/login")
+        }
+        return res
+      })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
+          if (data.success == false) {
+            this.$router.push("/login")
+          }
           this.workoutHistory = data.workoutHistory;
           let hx = this.workoutHistory;
           console.log(hx.lastWorkout);

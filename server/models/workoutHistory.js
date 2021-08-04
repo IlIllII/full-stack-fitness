@@ -1,14 +1,24 @@
 /** @file MongoDB schema for workout history. */
-
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 
 /**
- * User schema containing username and password properties.
+ * Workout Mongo schema.
  * 
- * @arg {string} username
- * @arg {string} password - required
+ * @prop {string} username
+ * @prop {Array} bench - workout session data
+ * @prop {Array} press - workout session data
+ * @prop {Array} squat - workout session data
+ * @prop {Array} deadlift - workout session data
+ * @prop {Array} row - workout session data
+ * @prop {Array} pullups - workout session data
+ * @prop {Number} benchFails - number of failures for lift
+ * @prop {Number} pressFails - number of failures for lift
+ * @prop {Number} squatFails - number of failures for lift
+ * @prop {Number} deadliftFails - number of failures for lift
+ * @prop {Number} rowFails - number of failures for lift
+ * @prop {String} lastWorkout - most recent workout, A or B
  * 
  */
 module.exports = mongoose.model("WorkoutHistory", new Schema({

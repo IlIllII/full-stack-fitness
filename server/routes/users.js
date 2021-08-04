@@ -1,21 +1,20 @@
 /**
  * @file CRUD API route for user authentication.
  */
-
 const express = require("express");
-const User = require("../models/users");
+const User = require("../models/users"); // Mongo Schema.
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken")
 
 
-
 const router = express.Router();
+const TOKEN_EXPIRY = 60 * 60 * 24 * 30; // One month.
 
 
 /**
  * Extract login credentials from http requests.
  * 
- * Wrote as a modular function so we can change our method if we
+ * Modular function so we can change our method if we
  * start transmitting user credentials differently in the future.
  * 
  * @arg {http.request} req - http request
@@ -23,10 +22,8 @@ const router = express.Router();
 function extractCredentials(req) {
     // Currently we transmit credentials via an authorization header:
     // "Basic user:password"
-    console.log("Auth header:")
-    console.log(req.headers.authorization)
     let [type, credential] = req.headers.authorization.split(" ")
-    let buff = Buffer.from(credential, "base64");
+    let buff = Buffer.from(credential, "base64"); // Decode base64 header
     let [username, password] = buff.toString("ascii").split(":");
     return { username: username, password: password }
 }
@@ -36,12 +33,12 @@ function extractCredentials(req) {
  * Authenticate credentials from http requests.
  * 
  * @arg req - http request
- * @returns {boolean}
+ * @returns {boolean} bool
  */
 async function authenticate(req) {
     try {
         let { username, password } = extractCredentials(req);
-        let user = await User.findOne({ username: username }); // Query db.
+        let user = await User.findOne({ username: username });
         let authenticated = await bcrypt.compare(password, user.password);
         return authenticated
     } catch (err) {
@@ -52,26 +49,26 @@ async function authenticate(req) {
 
 // POST - create a new user
 router.post("/", async (req, res) => {
-    /*
-    We want to create new user credentials from http request
-    and then save those credentials in our database.
-    */
+    // We will create a new user/password, hashing sensitive data with bcrypt.
+    // Upon successful creation, we will use a web token for future auth.
     try {
-        // Parsing request for credentials.
         let { username, password } = extractCredentials(req);
 
         // bcrypt creates 60-char long salted hash:
         // $[algo used]$[hashing cost]$[16-byte salt][24-byte hash]
         bcrypt.hash(password, 10, async (err, hash) => {
             try {
+                if (err) {
+                    console.log(err);
+                }
                 let user = new User();
                 user.username = username;
-                user.password = hash;
-                await user.save(); // Save new user to the database.
-                res.json({ // Send back success message and exit function.
+                user.password = hash; // Hashed password.
+                await user.save(); // Save new user to DB.
+                res.json({
                     success: true,
                     msg: "User has been saved to the database",
-                    token: jwt.sign({ username: user.username, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, process.env.SECRETKEY) // Token valid for 1 month
+                    token: jwt.sign({ username: user.username, exp: Math.floor(Date.now() / 1000) + TOKEN_EXPIRY }, process.env.SECRETKEY)
                 })
                 return
             } catch (err) {
@@ -99,29 +96,24 @@ router.post("/", async (req, res) => {
 
 // GET - authenticate a username/password combo.
 router.get("/", async (req, res) => {
-    /*
-    The GET method authenticates users.
-    For further details, see the POST method documentation above.
-    */
     try {
-        let { username, password } = extractCredentials(req);
         let authenticated = await authenticate(req);
         if (authenticated) {
-            let token = jwt.sign({ username: username, exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30 }, process.env.SECRETKEY);
-
             let { username, password } = extractCredentials(req);
+            let token = jwt.sign({ username: username, exp: Math.floor(Date.now() / 1000) + TOKEN_EXPIRY }, process.env.SECRETKEY);
             let user = await User.findOne({ username: username });
-                
-            res.json({
-                success: true,
-                msg: "User authenticated",
-                token: token,
-            })
+
+            if (user) {
+                res.json({
+                    success: true,
+                    msg: "User authenticated",
+                    token: token,
+                })
+            }
         } else {
             res.json({
                 success: false,
                 msg: "Invalid credentials, could not authenticate",
-                token: token
             })
         }
         return

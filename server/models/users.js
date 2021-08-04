@@ -5,10 +5,10 @@ const Schema = mongoose.Schema;
 
 
 /**
- * User schema containing username and password properties.
+ * User Mongo schema.
  * 
- * @arg {string} username
- * @arg {string} password - required
+ * @prop {String} username - Unique, required
+ * @prop {String} password - required
  * 
  */
 module.exports = mongoose.model("User", new Schema({

@@ -1,7 +1,7 @@
-/*
-This file contains the main express server logic for the project. It will handle
-API requests for the app and interface with the database.
-*/
+/**
+ * @file This file contains the main express server logic for the project.
+ * It will handle API requests for the app and interface with the database.
+ */
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
@@ -9,13 +9,11 @@ const morgan = require("morgan");
 const cors = require("cors");
 
 
-// Load .env variables into process environment.
 dotenv.config();
 const PORT = process.env.PORT || 3000;
 
-// Connect to MongoDB.
-mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
-    // Simple console logging.
+
+mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
     console.log("Connecting to database...")
     if (err) {
         // Color codes can be found at:
@@ -28,26 +26,22 @@ mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useUnifiedTopolog
 });
 
 
-// Initialize express app.
 const app = express();
 
 
-// Load in middleware
-app.use(express.json()); // Enable JSON requests and responses.
-app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(cors());
-app.use(require("./middleware/auth")()); // token authentication
+app.use(require("./middleware/auth")()); // Token authentication.
 
 
-// CRUD API router middleware
-app.use("/users", require("./routes/users")); // User login
-app.use("/workout", require("./routes/workoutHistory"));
+// CRUD API middleware.
+app.use("/users", require("./routes/users")); // User login.
+app.use("/workout", require("./routes/workoutHistory")); // Workout data.
 
 
-// Listen on a port.
 app.listen(PORT, (err) => {
-    // Simple console logging.
     console.log("Starting server...")
     if (err) {
         console.log("\x1b[31m%s\x1b[0m", "Something went wrong when starting the server:");

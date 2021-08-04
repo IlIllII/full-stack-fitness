@@ -1,14 +1,16 @@
+/**
+ * @file Router for CRUD API for workout data.
+ */
 const express = require("express");
-const WorkoutHistory = require("../models/workoutHistory")
+const WorkoutHistory = require("../models/workoutHistory") // Mongo Schema.
 
 
 const router = express.Router();
 
 
 router.post("/", async (req, res) => {
-    console.log("body recieved:")
-    console.log(req.body);
     try {
+        // Extract body data.
         let hx = new WorkoutHistory();
         hx.username = req.body.username;
         hx.bench = req.body.bench;
@@ -24,12 +26,13 @@ router.post("/", async (req, res) => {
         hx.rowFails = req.body.rowFails;
         hx.lastWorkout = req.body.lastWorkout;
 
-        await hx.save();
+        await hx.save(); // Save to db.
+
         res.json({
             success: true,
             msg: "New workout history saved successfully."
         })
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         res.status(500).json({
             success: false,
@@ -38,15 +41,16 @@ router.post("/", async (req, res) => {
     }
 });
 
-router.get("/:id", async (req, res) => {
+
+router.get("/:id", async (req, res) => { // :id is a username.
     try {
-        let hx = await WorkoutHistory.findOne({username: req.params.id})
+        let hx = await WorkoutHistory.findOne({ username: req.params.id })
         res.json({
             success: true,
             msg: "Retrieved workout history successfully",
             workoutHistory: hx,
         })
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         res.status(500).json({
             success: false,
@@ -55,10 +59,12 @@ router.get("/:id", async (req, res) => {
     }
 })
 
+
 router.put("/:id", async (req, res) => {
     try {
-        let hx = await WorkoutHistory.findOneAndUpdate({username: req.params.id}, {
+        let hx = await WorkoutHistory.findOneAndUpdate({ username: req.params.id }, {
             $set: {
+                // Updating DB entry.
                 username: req.body.username,
                 bench: req.body.bench,
                 press: req.body.press,
@@ -73,7 +79,7 @@ router.put("/:id", async (req, res) => {
                 rowFails: req.body.rowFails,
                 lastWorkout: req.body.lastWorkout,
             }
-        }, {upsert: true});
+        }, { upsert: true });
 
         console.log(hx);
 
@@ -83,7 +89,7 @@ router.put("/:id", async (req, res) => {
             workoutHistory: hx
         })
 
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         res.status(500).json({
             success: false,
@@ -92,9 +98,10 @@ router.put("/:id", async (req, res) => {
     }
 })
 
+
 router.delete("/:id", async (req, res) => {
     try {
-        let hx = await WorkoutHistory.findOneAndDelete({username: req.params.id})
+        let hx = await WorkoutHistory.findOneAndDelete({ username: req.params.id })
 
         if (hx) {
             res.json({
@@ -102,7 +109,7 @@ router.delete("/:id", async (req, res) => {
                 msg: "Workout history deleted successfully"
             })
         }
-    } catch(err) {
+    } catch (err) {
         res.status(500).json({
             success: false,
             msg: err.message
