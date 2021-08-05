@@ -13,7 +13,12 @@ dotenv.config();
 const PORT = process.env.PORT || 3000;
 
 
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true }, (err) => {
+mongoose.connect(process.env.DATABASE, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+    replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } },
+}, (err) => {
     console.log("Connecting to database...")
     if (err) {
         // Color codes can be found at:
@@ -39,6 +44,7 @@ app.use(require("./middleware/auth")()); // Token authentication.
 // CRUD API middleware.
 app.use("/users", require("./routes/users")); // User login.
 app.use("/workout", require("./routes/workoutHistory")); // Workout data.
+app.use(express.static("public"))
 
 
 app.listen(PORT, (err) => {
