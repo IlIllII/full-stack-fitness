@@ -4,4 +4,4 @@ This webapp is a tracking app for weightlifting. Specifically, it is a variant o
 
 I used MongoDB and Express for the back end and I used Vue for the front end.
 
-For more information, see my Beginning Brawn repos.
+For more information, see my individual Beginning Brawn repos.
